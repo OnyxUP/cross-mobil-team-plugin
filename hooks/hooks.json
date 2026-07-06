@@ -1,0 +1,61 @@
+{
+  "description": "Clean Architecture layer guard, pre-commit secret scan, and token-cost-reduction hooks for the Flutter mobile team plugin",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'cross-mobil-team-plugin active: start with @mobile-lead, which delegates to flutter-developer / backend-engineer / ui-ux-designer / security-engineer / aso-marketing. Standards: Clean Architecture, flutter_bloc, AI/external requests only via Cloud Functions.' >&2"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/token-savings/large-file-read-guard.sh\""
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/layer-violation-check.sh\""
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/token-savings/bash-output-summarizer.sh\""
+          },
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/pre-commit-secret-scan.sh\"",
+            "if": "Bash(git commit:*)"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/token-savings/session-cost-log.sh\""
+          }
+        ]
+      }
+    ]
+  }
+}

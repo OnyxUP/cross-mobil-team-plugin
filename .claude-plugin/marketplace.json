@@ -1,0 +1,20 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "cross-mobil-team-plugin",
+  "description": "An end-to-end agent team for Flutter mobile development: senior mobile lead, Flutter developer, Firebase backend engineer, UI/UX designer, mobile security engineer, and iOS ASO specialist.",
+  "owner": {
+    "name": "Halil Yilmaz",
+    "email": "halilyilmaz.py@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "cross-mobil-team-plugin",
+      "description": "An end-to-end agent team for Flutter mobile development: senior mobile lead, Flutter developer, Firebase backend engineer, UI/UX designer, mobile security engineer, and iOS ASO specialist. Enforces Clean Architecture, BLoC/Cubit, and Firebase Cloud Functions standards.",
+      "author": {
+        "name": "Halil Yilmaz",
+        "email": "halilyilmaz.py@gmail.com"
+      },
+      "source": "./"
+    }
+  ]
+}

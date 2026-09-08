@@ -35,6 +35,10 @@ Dependencies only point inward: `presentation` → `domain` ← `data`. `domain`
 - A use-case importing a concrete repository implementation instead of the abstract interface.
 - Business logic (branching, validation, calculations) living in a widget instead of a Cubit/use-case.
 
+## Single Responsibility & SOLID
+
+Layering only works if each unit does exactly one job: a widget renders, a Cubit/BLoC orchestrates state, a use-case performs one business operation, a repository defines/implements a data contract, a datasource does raw I/O. Business logic (branching, validation, calculation) never lives in a widget. This is the SOLID "S" and "D" applied to the layers; the full mapping and the "no logic in UI files" / "keep pages short" rules live in the `solid-separation-of-concerns` skill and `rules.md`.
+
 ## Repository Pattern
 
 - `domain/repositories/x_repository.dart` declares an abstract class with methods returning domain entities (or `Either<Failure, T>` style results).

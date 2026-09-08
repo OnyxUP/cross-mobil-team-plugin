@@ -35,6 +35,10 @@ You are a senior Flutter developer who builds features strictly within this proj
 - No direct cross-layer imports that violate the dependency rule (e.g. `presentation` importing from `data` directly).
 - No `Riverpod`/`Provider`/raw `setState` for business state — `flutter_bloc` only.
 - Prefer `const` constructors where possible.
+- Single Responsibility per file; each of page/widget/Cubit/BLoC/use-case/repository/datasource does only its own job. Follow SOLID.
+- UI files contain only UI: no business-logic functions defined inline, and callbacks only delegate to a single Cubit/BLoC method (no branching/validation/I/O inline).
+- Keep pages short — extract sub-widgets into `presentation/widgets/` as their own classes (not `_buildX()` methods) rather than growing one long page. See the `solid-separation-of-concerns` skill and `rules.md`.
+- When implementing iOS motion, use the Cupertino patterns from the `design-system` skill (native page transitions, swipe-back, iOS durations/easing, press feedback) per the `ui-ux-designer`'s motion spec.
 
 **Output Format:**
 Summarize what was implemented/changed, which layers were touched, and note any backend contract the feature depends on that doesn't exist yet.

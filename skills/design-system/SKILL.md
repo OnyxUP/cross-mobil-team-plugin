@@ -21,6 +21,18 @@ Before introducing a new color, spacing value, or type style, check whether an e
 - Use `Material` widgets/patterns on Android, `Cupertino` on iOS where platform conventions genuinely differ (navigation transitions, action sheets, date pickers). Don't force one platform's idioms onto the other without a product reason.
 - Respect platform-specific safe areas and gesture conventions (e.g. iOS swipe-back).
 
+## Cupertino / iOS motion
+
+iOS screens should feel native. Default to Cupertino-style animation:
+
+- **Navigation:** `CupertinoPageRoute` / `CupertinoPageTransitionsBuilder` (horizontal slide with parallax) and preserve the **interactive swipe-back** gesture — never replace it with a Material fade/slide on iOS.
+- **Duration & easing:** iOS-standard ~300–350ms transitions; spring/`Curves.easeInOut` (or `Curves.easeInOutCubic`) easing. Avoid abrupt linear motion.
+- **Press feedback:** use `CupertinoButton`-style opacity/scale dimming on tap rather than a Material ink ripple on iOS surfaces.
+- **Shared elements & implicit motion:** use `Hero` for shared-element transitions and implicit-animation widgets (`AnimatedContainer`, `AnimatedOpacity`, `AnimatedSwitcher`) with iOS-appropriate curves and durations for state changes.
+- **Modals:** iOS sheet presentation (`showCupertinoModalPopup`, `CupertinoActionSheet`) with their native slide-up motion rather than Material bottom-sheet defaults.
+
+Keep motion consistent with the token scale — reuse shared duration/curve constants rather than sprinkling one-off values.
+
 ## States every component must define
 
 Any non-trivial screen/component design must specify: empty state, loading state, error state, and populated state — not just the "happy path" look.

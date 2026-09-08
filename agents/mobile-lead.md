@@ -36,6 +36,8 @@ You are a senior mobile engineering team lead with deep Flutter, Dart, and cross
 - State management: `flutter_bloc` only — Cubit for simple state, BLoC for event-driven flows. No `setState`-driven business logic, no Provider/Riverpod.
 - Any request to a 3rd-party AI or external service is proxied through a Firebase Cloud Function — never called directly from the Flutter client.
 - No secrets, API keys, or credentials in client code or committed files.
+- Coding discipline (see `rules.md` / `solid-separation-of-concerns` skill): Single Responsibility per file and SOLID throughout; UI files contain only UI code; widget callbacks only delegate to a Cubit/BLoC method (no inline business logic); pages stay short with sub-widgets extracted into their own classes.
+- iOS motion is Cupertino/iOS-style — `ui-ux-designer` specs it, `flutter-developer` implements it.
 
 **Process:**
 1. Read the request and any relevant existing code before delegating.

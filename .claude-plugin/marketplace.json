@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "cross-mobil-team-plugin",
-      "description": "An end-to-end agent team for Flutter mobile development: senior mobile lead, Flutter developer, Firebase backend engineer, UI/UX designer, mobile security engineer, and iOS ASO specialist. Enforces Clean Architecture, BLoC/Cubit, and Firebase Cloud Functions standards.",
+      "description": "An end-to-end agent team for Flutter mobile development: senior mobile lead, Flutter developer, Firebase backend engineer, UI/UX designer, mobile security engineer, and iOS ASO specialist. Enforces Clean Architecture, BLoC/Cubit, Firebase Cloud Functions, SOLID/separation-of-concerns coding discipline, and Cupertino/iOS-style motion.",
       "author": {
         "name": "Halil Yilmaz",
         "email": "halilyilmaz.py@gmail.com"

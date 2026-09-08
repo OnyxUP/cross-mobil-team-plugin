@@ -24,3 +24,5 @@ version: 0.1.0
 
 - Extract a widget into its own class (not just a method) once it has meaningful internal state or is reused — method-based "widgets" don't get the `const` optimization and complicate testing.
 - Keep widget files focused: one primary widget per file, private helper widgets colocated only if small and single-use.
+- UI files contain only UI: no business-logic functions defined inline in a widget or `build()`, and callbacks (`onPressed`, `onChanged`, …) only delegate to a single Cubit/BLoC method — no branching/validation/I/O inline.
+- Keep pages short. A page `build()` should read as composition; a page file over ~200 lines (or a `build()` over ~150) is a smell that sub-widgets should be extracted into `presentation/widgets/`. See the `solid-separation-of-concerns` skill and `rules.md`.

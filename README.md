@@ -1,6 +1,6 @@
 # cross-mobil-team-plugin
 
-An end-to-end Claude Code plugin for Flutter mobile development: an agent team led by a senior mobile team lead, the skills those agents use, MCP integrations, and hooks aimed at reducing token cost. **Clean Architecture** is the architectural standard, **flutter_bloc (Cubit/BLoC)** is used for state management, and the backend is **proxied through Firebase Cloud Functions**.
+An end-to-end Claude Code plugin for Flutter mobile development: an agent team led by a senior mobile team lead, the skills those agents use, MCP integrations, and hooks aimed at reducing token cost. **Clean Architecture** is the architectural standard, **flutter_bloc (Cubit/BLoC)** is used for state management, and the backend is **proxied through Firebase Cloud Functions**. On top of the architecture, a set of **coding-discipline rules** (Single Responsibility, separation of concerns, SOLID, UI-only-in-UI-files, short pages) is defined in `rules.md`, and iOS screens use **Cupertino / iOS-style animations**.
 
 ## Quick Setup
 
@@ -87,7 +87,7 @@ Expert in Cloud Functions (2nd gen), Firestore schema/security rules, Auth, App 
 
 ### `ui-ux-designer` — UI/UX Designer
 
-Makes decisions on visual design, layout, theming, accessibility, and design-system consistency; doesn't write Dart code, produces a spec for `flutter-developer` to implement. Triggered by: new screen/flow design decisions, design-system consistency checks, accessibility reviews, Material/Cupertino platform decisions.
+Makes decisions on visual design, layout, theming, accessibility, and design-system consistency; doesn't write Dart code, produces a spec for `flutter-developer` to implement. Every spec includes a **motion spec** — defaulting to **Cupertino / iOS-style** animation (native page transitions with swipe-back, iOS durations/easing, press feedback, modal presentation). Triggered by: new screen/flow design decisions, design-system consistency checks, accessibility reviews, Material/Cupertino platform decisions, motion/animation design.
 
 ### `security-engineer` — Mobile Security Engineer
 
@@ -135,6 +135,7 @@ Once a stable official/community MCP server exists for package search/version in
 | Skill | Summary | Used by |
 |---|---|---|
 | `clean-architecture` | Feature-first `domain`/`data`/`presentation` layering, dependency rule, repository/use-case patterns. | `flutter-developer`, `mobile-lead` |
+| `solid-separation-of-concerns` | SRP, per-component responsibility matrix, no-logic-in-UI-files, keep-pages-short, SOLID→Flutter mapping. | `flutter-developer`, `mobile-lead` |
 | `flutter-bloc-cubit` | Cubit vs BLoC decision rule, state/event modeling, `bloc_test` patterns. Provider/Riverpod not used. | `flutter-developer` |
 | `flutter-widget-review` | Widget rebuild performance, `const` correctness, accessibility. | `flutter-developer`, `ui-ux-designer` |
 | `firebase-cloud-functions` | Writing Cloud Functions (2nd gen), 3rd-party AI/external API proxy pattern, Firestore schema+rules, cost/quota control. | `backend-engineer` |
@@ -153,6 +154,7 @@ Defined in `hooks/hooks.json`, all scripts run via `${CLAUDE_PLUGIN_ROOT}`:
 | `SessionStart` | — | inline `echo` | Prints an info message at session start summarizing how to use the team and the project standards. |
 | `PreToolUse` | `Read` | `hooks/token-savings/large-file-read-guard.sh` | If the file to be read is 500+ lines and no `limit` parameter is given, suggests using `offset`/`limit` or `Grep` instead of loading the whole file into context (returns feedback to the agent via `exit 2`). |
 | `PostToolUse` | `Edit\|Write\|MultiEdit` | `hooks/layer-violation-check.sh` | If the modified `.dart` file is under `presentation/` and directly imports a `data/` module, warns of a Clean Architecture layer violation. |
+| `PostToolUse` | `Edit\|Write\|MultiEdit` | `hooks/widget-discipline-check.sh` | For `presentation/` `.dart` files, heuristically warns when a page grew too long (extract sub-widgets) or a widget callback appears to contain business logic (branching/await) — nudging toward the `rules.md` SRP/UI-only rules. |
 | `PostToolUse` | `Bash` | `hooks/token-savings/bash-output-summarizer.sh` | If the output of commands like `flutter test`/`flutter analyze` exceeds 80 lines, writes the full log under `.claude/logs/` and returns to context only a summary containing `error`/`fail`/`warning` lines. |
 | `PostToolUse` (only on `git commit`) | `Bash` + `if: Bash(git commit:*)` | `hooks/pre-commit-secret-scan.sh` | Scans the staged diff for hardcoded API key/token and debug `print()` patterns; returns a pre-commit warning if suspicious findings exist. |
 | `Stop` | — | `hooks/token-savings/session-cost-log.sh` | Appends a timestamp to `.claude/logs/session-cost.log` when the session ends (a minimal, best-effort log for cost awareness). |
@@ -166,5 +168,7 @@ These hooks are heuristic pattern scans, not comprehensive static analysis tools
 - **Clean Architecture** (`domain`/`data`/`presentation`, dependency rule pointing inward).
 - **flutter_bloc** (Cubit + BLoC) — no Riverpod/Provider.
 - **AI/external service proxy via Firebase Cloud Functions** — the client never sees a 3rd-party API key.
+- **Coding discipline** (`rules.md`): Single Responsibility, separation of concerns, SOLID; UI files contain only UI code; widget callbacks only delegate to a Cubit/BLoC method; pages stay short via extracted sub-widgets.
+- **Cupertino / iOS-style motion** on iOS screens — specced by `ui-ux-designer`, implemented by `flutter-developer`.
 
-All rules are defined as binding in `CLAUDE.md`; agents and the related skills operate according to these rules.
+All rules are defined as binding in `CLAUDE.md` and `rules.md`; agents and the related skills operate according to these rules.

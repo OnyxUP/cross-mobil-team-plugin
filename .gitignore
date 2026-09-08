@@ -1,0 +1,3 @@
+# Local Claude Code project settings/state — not part of the plugin.
+# Note: this intentionally does NOT ignore .claude-plugin/ (plugin.json, marketplace.json).
+.claude/

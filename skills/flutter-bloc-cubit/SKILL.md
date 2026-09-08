@@ -58,3 +58,4 @@ Cover: initial state, success path, failure path, and any debounce/cancellation 
 - Don't use `Provider` or `Riverpod` — this project standardizes on `flutter_bloc` only.
 - Don't drive business logic through `setState` in a `StatefulWidget`.
 - Don't call repositories or use-cases directly from a widget — always through a Cubit/BLoC method.
+- Keep responsibilities clean both ways: a widget callback only delegates to a single Cubit/BLoC method (no inline business logic), and the Cubit/BLoC only orchestrates state (call use-cases, emit states) — no widget building, no UI controllers, no raw I/O (that's the datasource). See the `solid-separation-of-concerns` skill and `rules.md`.
